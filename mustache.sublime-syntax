@@ -14,24 +14,42 @@ contexts:
           captures:
             0: entity.name.function
           push:
-            - meta_scope: variable.parameter.function
+            - meta_scope: constant.language
             - match: "}}}"
               captures:
                 0: entity.name.function
               pop: true
-        - match: "{{!"
+        - match: "{{\\s*!"
           captures:
             0: punctuation.definition.comment
           push:
             - meta_scope: comment.block
             - match: "}}"
               pop: true
-        - match: "{{(?=[>#^/&=])"
+        - match: "{{(?=\\s*&)"
+          scope: storage.type.function
+          push:
+            - meta_scope: constant.language
+            - match: "&"
+              scope: entity.name.function
+            - match: \.
+              scope: keyword.operator.accessor
+            - match: "}}"
+              scope: storage.type.function
+              pop: true
+        - match: "{{(?=\\s*>)"
+          scope: storage.type.function
+          push:
+            - meta_scope: keyword.control.import
+            - match: ">"
+              scope: entity.name.function
+            - match: "}}"
+              scope: storage.type.function
+              pop: true
+        - match: "{{(?=\\s*[#^/=])"
           scope: storage.type.function
           push:
             - meta_scope: variable.parameter
-            - match: ">"
-              scope: keyword.control.import
             - match: "[#^/&=]"
               scope: entity.name.function
             - match: \.
