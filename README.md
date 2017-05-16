@@ -1,3 +1,3 @@
 # Sublime Mustache
 
-Mustache Syntax Definitions for Sublime Text
+Mustache Syntax Definitions and Snippets for Sublime Text 3

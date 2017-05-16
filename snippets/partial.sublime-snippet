@@ -1,0 +1,9 @@
+
+<snippet>
+    <content><![CDATA[
+{{> ${1:partial} }}
+]]></content>
+    <tabTrigger>inc</tabTrigger>
+    <description>Mustache Partial</description>
+    <scope>embedding.mustache</scope>
+</snippet>

@@ -1,0 +1,9 @@
+
+<snippet>
+    <content><![CDATA[
+{{{ ${1:variable} }}}
+]]></content>
+    <tabTrigger>let</tabTrigger>
+    <description>Mustache Unescaped Variable</description>
+    <scope>embedding.mustache</scope>
+</snippet>
