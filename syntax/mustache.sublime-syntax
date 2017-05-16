@@ -1,0 +1,68 @@
+%YAML 1.2
+---
+name: Mustache
+file_extensions:
+  - mustache
+first_line_match: (?i)<(!DOCTYPE\s*)?html
+scope: embedding.mustache
+contexts:
+  main:
+    - match: ""
+      push: "Packages/HTML/HTML.sublime-syntax"
+      with_prototype:
+        - match: "{{{"
+          captures:
+            0: entity.name.function.mustache
+          push:
+            - meta_scope: constant.other.placeholder.mustache
+            - match: "}}}"
+              captures:
+                0: entity.name.function.mustache
+              pop: true
+        - match: "{{\\s*!"
+          captures:
+            0: punctuation.definition.comment.mustache
+          push:
+            - meta_scope: comment.block.mustache
+            - match: "}}"
+              pop: true
+        - match: "{{(?=\\s*&)"
+          scope: storage.type.function.mustache
+          push:
+            - meta_scope: constant.other.placeholder.mustache
+            - match: "&"
+              scope: entity.name.function.mustache
+            - match: \.
+              scope: keyword.operator.accessor.mustache
+            - match: "}}"
+              scope: storage.type.function.mustache
+              pop: true
+        - match: "{{(?=\\s*>)"
+          scope: storage.type.function.mustache
+          push:
+            - meta_scope: keyword.control.import.mustache
+            - match: ">"
+              scope: entity.name.function.mustache
+            - match: "}}"
+              scope: storage.type.function.mustache
+              pop: true
+        - match: "{{(?=\\s*[#^/=])"
+          scope: storage.type.function.mustache
+          push:
+            - meta_scope: variable.parameter.mustache
+            - match: "[#^/&=]"
+              scope: entity.name.function.mustache
+            - match: \.
+              scope: keyword.operator.accessor.mustache
+            - match: "}}"
+              scope: storage.type.function.mustache
+              pop: true
+        - match: "{{"
+          scope: storage.type.function.mustache
+          push:
+            - meta_scope: constant.other.placeholder.mustache
+            - match: \.
+              scope: keyword.operator.accessor.mustache
+            - match: "}}"
+              scope: storage.type.function.mustache
+              pop: true
