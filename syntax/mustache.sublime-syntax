@@ -1,6 +1,6 @@
 %YAML 1.2
 ---
-name: Mustache
+name: HTML (Mustache)
 file_extensions:
   - mustache
 first_line_match: (?i)<(!DOCTYPE\s*)?html
