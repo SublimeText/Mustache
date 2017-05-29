@@ -10,6 +10,7 @@ contexts:
     - match: ""
       push: "Packages/HTML/HTML.sublime-syntax"
       with_prototype:
+        # Unescaped Variable - shortcut
         - match: "{{{"
           captures:
             0: entity.name.function.mustache
@@ -19,6 +20,7 @@ contexts:
               captures:
                 0: entity.name.function.mustache
               pop: true
+        # Comment
         - match: "{{\\s*!"
           captures:
             0: punctuation.definition.comment.mustache
@@ -26,6 +28,7 @@ contexts:
             - meta_scope: comment.block.mustache
             - match: "}}"
               pop: true
+        # Unescaped Variable
         - match: "{{(?=\\s*&)"
           scope: storage.type.function.mustache
           push:
@@ -37,6 +40,7 @@ contexts:
             - match: "}}"
               scope: storage.type.function.mustache
               pop: true
+        # Partial
         - match: "{{(?=\\s*>)"
           scope: storage.type.function.mustache
           push:
@@ -46,6 +50,7 @@ contexts:
             - match: "}}"
               scope: storage.type.function.mustache
               pop: true
+        # (Inverted) Section
         - match: "{{(?=\\s*[#^/=])"
           scope: storage.type.function.mustache
           push:
@@ -57,6 +62,7 @@ contexts:
             - match: "}}"
               scope: storage.type.function.mustache
               pop: true
+        # Escaped Variable
         - match: "{{"
           scope: storage.type.function.mustache
           push:
