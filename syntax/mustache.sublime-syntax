@@ -14,7 +14,7 @@ contexts:
           captures:
             0: entity.name.function.mustache
           push:
-            - meta_scope: constant.other.placeholder.mustache
+            - meta_scope: constant.language.other.mustache
             - match: "}}}"
               captures:
                 0: entity.name.function.mustache
@@ -40,9 +40,9 @@ contexts:
         - match: "{{(?=\\s*>)"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: keyword.control.import.mustache
+            - meta_scope: variable.parameter.mustache
             - match: ">"
-              scope: entity.name.function.mustache
+              scope: keyword.control.import.mustache
             - match: "}}"
               scope: storage.type.function.mustache
               pop: true
@@ -60,7 +60,7 @@ contexts:
         - match: "{{"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: constant.other.placeholder.mustache
+            - meta_scope: constant.language.other.mustache
             - match: \.
               scope: keyword.operator.accessor.mustache
             - match: "}}"
