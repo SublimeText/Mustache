@@ -10,23 +10,19 @@ contexts:
     - match: ""
       push: "Packages/HTML/HTML.sublime-syntax"
       with_prototype:
-        # Unescaped Variable - shortcut
-        - match: "{{{"
-          captures:
-            0: entity.name.function.mustache
-          push:
-            - meta_scope: constant.language.other.mustache
-            - match: "}}}"
-              captures:
-                0: entity.name.function.mustache
-              pop: true
         # Comment
         - match: "{{\\s*!"
-          captures:
-            0: punctuation.definition.comment.mustache
           push:
             - meta_scope: comment.block.mustache
             - match: "}}"
+              pop: true
+        # Unescaped Variable - shortcut
+        - match: "{{{"
+          scope: entity.name.function.mustache
+          push:
+            - meta_scope: constant.language.other.mustache
+            - match: "}}}"
+              scope: entity.name.function.mustache
               pop: true
         # Unescaped Variable
         - match: "{{(?=\\s*&)"
