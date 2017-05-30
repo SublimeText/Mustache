@@ -20,7 +20,7 @@ contexts:
         - match: "{{(?=\\s*>)"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: variable.parameter.mustache
+            - meta_content_scope: variable.parameter.mustache
             - match: ">"
               scope: keyword.control.import.mustache
             - match: "}}"
@@ -30,7 +30,7 @@ contexts:
         - match: "{{(?=\\s*[#^/=])"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: variable.parameter.mustache
+            - meta_content_scope: variable.parameter.mustache
             - match: "[#^/&=]"
               scope: entity.name.function.mustache
             - match: \.
@@ -42,7 +42,7 @@ contexts:
         - match: "{{(?=\\s*&)"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: constant.other.placeholder.mustache
+            - meta_content_scope: constant.other.placeholder.mustache
             - match: "&"
               scope: entity.name.function.mustache
             - match: \.
@@ -54,7 +54,7 @@ contexts:
         - match: "{{{"
           scope: entity.name.function.mustache
           push:
-            - meta_scope: constant.language.other.mustache
+            - meta_content_scope: constant.language.other.mustache
             - match: "}}}"
               scope: entity.name.function.mustache
               pop: true
@@ -62,7 +62,7 @@ contexts:
         - match: "{{"
           scope: storage.type.function.mustache
           push:
-            - meta_scope: constant.language.other.mustache
+            - meta_content_scope: constant.language.other.mustache
             - match: \.
               scope: keyword.operator.accessor.mustache
             - match: "}}"
