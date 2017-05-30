@@ -16,26 +16,6 @@ contexts:
             - meta_scope: comment.block.mustache
             - match: "}}"
               pop: true
-        # Unescaped Variable - shortcut
-        - match: "{{{"
-          scope: entity.name.function.mustache
-          push:
-            - meta_scope: constant.language.other.mustache
-            - match: "}}}"
-              scope: entity.name.function.mustache
-              pop: true
-        # Unescaped Variable
-        - match: "{{(?=\\s*&)"
-          scope: storage.type.function.mustache
-          push:
-            - meta_scope: constant.other.placeholder.mustache
-            - match: "&"
-              scope: entity.name.function.mustache
-            - match: \.
-              scope: keyword.operator.accessor.mustache
-            - match: "}}"
-              scope: storage.type.function.mustache
-              pop: true
         # Partial
         - match: "{{(?=\\s*>)"
           scope: storage.type.function.mustache
@@ -57,6 +37,26 @@ contexts:
               scope: keyword.operator.accessor.mustache
             - match: "}}"
               scope: storage.type.function.mustache
+              pop: true
+        # Unescaped Variable
+        - match: "{{(?=\\s*&)"
+          scope: storage.type.function.mustache
+          push:
+            - meta_scope: constant.other.placeholder.mustache
+            - match: "&"
+              scope: entity.name.function.mustache
+            - match: \.
+              scope: keyword.operator.accessor.mustache
+            - match: "}}"
+              scope: storage.type.function.mustache
+              pop: true
+        # Unescaped Variable - shortcut
+        - match: "{{{"
+          scope: entity.name.function.mustache
+          push:
+            - meta_scope: constant.language.other.mustache
+            - match: "}}}"
+              scope: entity.name.function.mustache
               pop: true
         # Escaped Variable
         - match: "{{"
