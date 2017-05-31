@@ -18,53 +18,43 @@ contexts:
               pop: true
         # Partial
         - match: "{{(?=\\s*>)"
-          scope: storage.type.function.mustache
+          scope: storage.type.other.mustache
           push:
             - meta_content_scope: variable.parameter.mustache
+            - match: "}}"
+              scope: storage.type.other.mustache
+              pop: true
             - match: ">"
               scope: keyword.control.import.mustache
-            - match: "}}"
-              scope: storage.type.function.mustache
-              pop: true
-        # (Inverted) Section
-        - match: "{{(?=\\s*[#^/=])"
+        # (Inverted) Section && Unescaped Variable
+        - match: "{{(?=\\s*[#^/=&])"
           scope: storage.type.function.mustache
           push:
             - meta_content_scope: variable.parameter.mustache
-            - match: "[#^/&=]"
-              scope: entity.name.function.mustache
-            - match: \.
-              scope: keyword.operator.accessor.mustache
             - match: "}}"
               scope: storage.type.function.mustache
               pop: true
+            - match: "[#^=/&]"
+              scope: entity.name.function.mustache
+            - match: "\\."
+              scope: keyword.operator.accessor.mustache
         # Unescaped Variable
-        - match: "{{(?=\\s*&)"
-          scope: storage.type.function.mustache
+        - match: "{{{"
+          scope: variable.function.mustache
           push:
-            - meta_content_scope: constant.other.placeholder.mustache
-            - match: "&"
-              scope: entity.name.function.mustache
+            - meta_content_scope: variable.parameter.mustache
+            - match: "}}}"
+              scope: variable.function.mustache
+              pop: true
             - match: \.
               scope: keyword.operator.accessor.mustache
-            - match: "}}"
-              scope: storage.type.function.mustache
-              pop: true
-        # Unescaped Variable - shortcut
-        - match: "{{{"
-          scope: entity.name.function.mustache
-          push:
-            - meta_content_scope: constant.language.other.mustache
-            - match: "}}}"
-              scope: entity.name.function.mustache
-              pop: true
         # Escaped Variable
         - match: "{{"
-          scope: storage.type.function.mustache
+          scope: variable.function.mustache
           push:
-            - meta_content_scope: constant.language.other.mustache
+            - meta_content_scope: variable.parameter.mustache
+            - match: "}}"
+              scope: variable.function.mustache
+              pop: true
             - match: \.
               scope: keyword.operator.accessor.mustache
-            - match: "}}"
-              scope: storage.type.function.mustache
-              pop: true
