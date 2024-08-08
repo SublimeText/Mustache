@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[${TM_TEMPLATE_START}! ${0:comment} ${TM_TEMPLATE_END}]]></content>
+    <tabTrigger>!</tabTrigger>
+    <scope>meta.template.mustache</scope>
+    <description>Mustache Comment</description>
+</snippet>

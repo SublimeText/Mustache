@@ -1,0 +1,43 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: CSS (Mustache)
+scope: source.css.mustache
+version: 2
+
+extends: Packages/CSS/CSS.sublime-syntax
+
+file_extensions:
+  - css.mustache
+  - mustache.css
+
+variables:
+
+  # CSS overrides
+
+  ident_start: (?:{{nmstart}}|{{mustache_tag_start}})
+
+  # required until ST4173
+  selector_begin: (?={{selector_start}}|{{mustache_tag_start}})
+  # required until ST4173
+  nested_selector_begin: (?={{nested_selector_start}}|{{mustache_tag_start}})
+
+  tag_name_begin: (?=[[:alpha:]]|{{mustache_tag_start}})
+
+  # CSS (Mustache) variables
+
+  mustache_tag_start: '{{'
+  mustache_tag_end: '}}'
+
+contexts:
+  main:
+    - meta_prepend: true
+    - meta_scope: meta.template.mustage
+
+  prototype:
+    - meta_prepend: true
+    - include: Text (Mustache).sublime-syntax
+
+  string-content:
+    - meta_prepend: true
+    - include: Text (Mustache).sublime-syntax#interpolations

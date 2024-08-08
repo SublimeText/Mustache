@@ -1,0 +1,244 @@
+# SYNTAX TEST "HTML (Mustache).sublime-syntax"
+
+    <script>
+        var i = {{js.value}};
+#               ^^^^^^^^^^^^ meta.template.mustache source.js.embedded.html meta.template.mustage meta.embedded.variable.mustache
+    </script>
+
+    <script type="application/json">
+        {
+            "{{json.key}}": "{{json.value}}",
+        #   ^^^^^^^^^^^^^^ meta.template.mustache source.json.embedded.html meta.template.mustache meta.mapping.key.json
+        #                   ^^^^^^^^^^^^^^^^ meta.template.mustache source.json.embedded.html meta.template.mustache meta.mapping.value.json meta.string.json
+        #    ^^^^^^^^^^^^ meta.embedded.variable.mustache
+        #                    ^^^^^^^^^^^^^^ meta.embedded.variable.mustache
+        }
+    </script>
+
+    <style>
+        tr {
+            color: {{css.color}};
+#                  ^^^^^^^^^^^^^ meta.template.mustache source.css.embedded.html meta.embedded.variable.mustache
+        }
+    </style>
+
+## HTML Tag and Attribute Interpolation
+
+    <div class="{{class.name}}"></div>
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.tag.block.any.html
+#               ^^^^^^^^^^^^^^ meta.attribute-with-value.class.html meta.class-name.html meta.string.html meta.embedded.variable.mustache
+#               ^^ punctuation.section.embedded.begin.mustache
+#                 ^^^^^ meta.path.mustache variable.other.object.mustache
+#                      ^ meta.path.mustache punctuation.accessor.dot.mustache
+#                       ^^^^ meta.path.mustache variable.other.member.mustache
+#                           ^^ punctuation.section.embedded.end.mustache
+
+    <{{tag.name}} {{tag.attr.name}}={{tag.attr.value}} />
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.tag.other.html
+#   ^ meta.tag.other.html punctuation.definition.tag.begin.html
+#    ^^^^^^^^^^^^ entity.name.tag.other.html meta.embedded.variable.mustache
+#                 ^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html entity.other.attribute-name.html meta.embedded.variable.mustache
+#                                  ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+#                                   ^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html meta.string.html meta.embedded.variable.mustache
+#                                                      ^^ punctuation.definition.tag.end.html
+
+## Comments
+
+    {{ ! comment }}
+#   ^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.comment.mustache comment.block.mustache
+#   ^^^^ punctuation.definition.comment.begin.mustache
+#                ^^ punctuation.definition.comment.end.mustache
+
+    12345{{! Comment Block! }}67890
+#        ^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.comment.mustache
+
+    12345{{!
+#        ^^^ meta.template.mustache meta.embedded.comment.mustache comment.block.mustache punctuation.definition.comment.begin.mustache
+#           ^ meta.template.mustache meta.embedded.comment.mustache comment.block.mustache
+    This is a
+    multi-line comment...
+#  ^^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.comment.mustache comment.block.mustache
+    }}67890
+#  ^^^ meta.template.mustache meta.embedded.comment.mustache comment.block.mustache
+#   ^^ punctuation.definition.comment.end.mustache
+#     ^^^^^^ meta.template.mustache - meta.embedded
+
+## Dynamic Templates
+
+    {{>*dynamic.template}}
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.partial.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ keyword.declacation.partial.mustache
+#      ^ storage.modifier.dynamic.mustache
+#       ^^^^^^^^^^^^^^^^ meta.path.mustache
+#       ^^^^^^^ variable.other.object.mustache
+#              ^ punctuation.accessor.dot.mustache
+#               ^^^^^^^^ variable.other.member.mustache
+#                       ^^ punctuation.section.embedded.end.mustache
+
+    {{> * dynamic.template}}
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.partial.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ keyword.declacation.partial.mustache
+#       ^ storage.modifier.dynamic.mustache
+#         ^^^^^^^^^^^^^^^^ meta.path.mustache
+#         ^^^^^^^ variable.other.object.mustache
+#                ^ punctuation.accessor.dot.mustache
+#                 ^^^^^^^^ variable.other.member.mustache
+#                         ^^ punctuation.section.embedded.end.mustache
+
+    {{ > * dynamic.template }}
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.partial.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declacation.partial.mustache
+#        ^ storage.modifier.dynamic.mustache
+#          ^^^^^^^^^^^^^^^^ meta.path.mustache
+#          ^^^^^^^ variable.other.object.mustache
+#                 ^ punctuation.accessor.dot.mustache
+#                  ^^^^^^^^ variable.other.member.mustache
+#                           ^^ punctuation.section.embedded.end.mustache
+
+## Partials
+
+    {{ > partial }}
+#   ^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.partial.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declacation.partial.mustache
+#        ^^^^^^^ variable.other.member.mustache
+#                ^^ punctuation.section.embedded.end.mustache
+
+## Delimiter Declarations
+
+    {{= | | =}}
+#   ^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ keyword.declaration.delimiter.mustache
+#           ^ keyword.declaration.delimiter.mustache
+#            ^^ punctuation.section.embedded.end.mustache
+
+## Sections
+
+    {{#section}}
+#   ^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ keyword.declaration.section.mustache
+#      ^^^^^^^ variable.other.member.mustache
+#             ^^ punctuation.section.embedded.end.mustache
+
+    {{/section}}
+#   ^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ keyword.declaration.section.mustache
+#      ^^^^^^^ variable.other.member.mustache
+#             ^^ punctuation.section.embedded.end.mustache
+
+    {{ # section }}
+#   ^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^ variable.other.member.mustache
+#                ^^ punctuation.section.embedded.end.mustache
+
+    {{ / section }}
+#   ^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^ variable.other.member.mustache
+#                ^^ punctuation.section.embedded.end.mustache
+
+    {{ # foo.bar.baz }}
+#   ^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^^^^ meta.path.mustache
+#        ^^^ variable.other.object.mustache
+#           ^ punctuation.accessor.dot.mustache
+#            ^^^ variable.other.object.mustache
+#               ^ punctuation.accessor.dot.mustache
+#                ^^^ variable.other.member.mustache
+#                    ^^ punctuation.section.embedded.end.mustache
+
+    {{ / foo.bar.baz }}
+#   ^^^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^^^^ meta.path.mustache
+#        ^^^ variable.other.object.mustache
+#           ^ punctuation.accessor.dot.mustache
+#            ^^^ variable.other.object.mustache
+#               ^ punctuation.accessor.dot.mustache
+#                ^^^ variable.other.member.mustache
+#                    ^^ punctuation.section.embedded.end.mustache
+
+    {{ ^ inverted }}
+#   ^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^ variable.other.member.mustache
+#                 ^^ punctuation.section.embedded.end.mustache
+
+    {{ / inverted }}
+#   ^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^ variable.other.member.mustache
+#                 ^^ punctuation.section.embedded.end.mustache
+
+    {{ $ inherited }}
+#   ^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^^ variable.other.member.mustache
+#                  ^^ punctuation.section.embedded.end.mustache
+
+    {{ / inherited }}
+#   ^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.section.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ keyword.declaration.section.mustache
+#        ^^^^^^^^^ variable.other.member.mustache
+#                  ^^ punctuation.section.embedded.end.mustache
+
+# Interpolations
+
+    Hello {Mustage}!
+#   ^^^^^^^^^^^^^^^^ meta.template.mustache - meta.embedded
+
+    Hello {{name}}!
+#   ^^^^^^ meta.template.mustache - meta.embedded
+#         ^^^^^^^^ meta.template.mustache meta.embedded.variable.mustache
+#                 ^^ meta.template.mustache - meta.embedded
+#         ^^ punctuation.section.embedded.begin.mustache
+#           ^^^^ variable.other.member.mustache
+#               ^^ punctuation.section.embedded.end.mustache
+
+    # Ampersand Integer Interpolation
+    {{&mph}} miles an hour!
+#   ^^^^^^^^ meta.template.mustache meta.embedded.variable.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#     ^ storage.modifier.mustache
+#      ^^^ meta.path.mustache variable.other.member.mustache
+
+    {{ & . }}
+#   ^^^^^^^^^ meta.template.mustache meta.embedded.variable.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ storage.modifier.mustache
+#        ^ variable.language.mustache
+#          ^^ punctuation.section.embedded.end.mustache
+
+    # Data from parent context
+    {{ . }}
+#   ^^^^^^^ meta.template.mustache meta.embedded.variable.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^ variable.language.mustache
+#        ^^ punctuation.section.embedded.end.mustache
+
+    {{ foo.bar.baz }}
+#   ^^^^^^^^^^^^^^^^^ meta.template.mustache meta.embedded.variable.mustache
+#   ^^ punctuation.section.embedded.begin.mustache
+#      ^^^^^^^^^^^ meta.path.mustache
+#      ^^^ variable.other.object.mustache
+#         ^ punctuation.accessor.dot.mustache
+#          ^^^ variable.other.object.mustache
+#             ^ punctuation.accessor.dot.mustache
+#              ^^^ variable.other.member.mustache
+#                  ^^ punctuation.section.embedded.end.mustache

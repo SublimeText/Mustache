@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[
+${TM_TEMPLATE_START}^ ${1:variable} ${TM_TEMPLATE_END}
+${TM_TEMPLATE_INDENT}$0
+${TM_TEMPLATE_START}/ ${1:variable} ${TM_TEMPLATE_END}
+]]></content>
+    <tabTrigger>else</tabTrigger>
+    <scope>meta.template.mustache</scope>
+    <description>Mustache Inverted Section</description>
+</snippet>
