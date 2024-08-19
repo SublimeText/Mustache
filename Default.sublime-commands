@@ -1,0 +1,10 @@
+[
+	{
+		"caption": "Preferences: Mustache Key Bindings",
+		"command": "edit_settings",
+		"args": {
+			"base_file": "${packages}/Mustache/Default.sublime-keymap",
+			"default": "[\n\t${0}\n]\n"
+		}
+	}
+]

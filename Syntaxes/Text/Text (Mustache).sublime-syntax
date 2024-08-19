@@ -1,0 +1,146 @@
+%YAML 1.2
+---
+name: Text (Mustache)
+scope: text.mustache
+version: 2
+
+file_extensions:
+  - txt.mustache
+  - mustache.txt
+
+variables:
+  mustache_tag_begin: (?={{mustache_tag_start}})
+  mustache_tag_start: '{{'
+  mustache_tag_end: '}}'
+
+contexts:
+  main:
+    - meta_scope: meta.template.mustache
+    - match: '{{mustache_tag_begin}}'
+      push: embedded-body
+
+  embedded-body:
+    - meta_include_prototype: false
+    - include: mustache-comments
+    - include: mustache-delimiters
+    - include: mustache-partials
+    - include: mustache-sections
+    - include: mustache-unescaped-variables
+    - include: mustache-escaped-variables
+    - include: immediately-pop
+
+  interpolations:
+    - match: '{{mustache_tag_begin}}'
+      push:
+        - interpolation-meta
+        - embedded-body
+
+  interpolation-meta:
+    - clear_scopes: 1
+    - meta_include_prototype: false
+    - include: immediately-pop
+
+###[ MUSTACHE ]################################################################
+
+  mustache-comments:
+    - match: ({{mustache_tag_start}})\s*(!)
+      scope: punctuation.definition.comment.begin.mustache
+      set: mustache-comment-body
+
+  mustache-comment-body:
+    - meta_scope: meta.embedded.comment.mustache comment.block.mustache
+    - match: '{{mustache_tag_end}}'
+      scope: punctuation.definition.comment.end.mustache
+      pop: 1
+
+  mustache-delimiters:
+    - match: ({{mustache_tag_start}})\s*(=)
+      captures:
+        1: punctuation.section.embedded.begin.mustache
+        2: keyword.declaration.delimiter.mustache
+      set: mustache-delimiter-body
+
+  mustache-delimiter-body:
+    - meta_scope: meta.embedded.section.mustache
+    - match: (=)\s*({{mustache_tag_end}})
+      captures:
+        1: keyword.declaration.delimiter.mustache
+        2: punctuation.section.embedded.end.mustache
+      pop: 1
+    - include: mustache-embedded-content
+
+  mustache-partials:
+    - match: ({{mustache_tag_start}})\s*(>)\s*(\*?)
+      captures:
+        1: punctuation.section.embedded.begin.mustache
+        2: keyword.declacation.partial.mustache
+        3: storage.modifier.dynamic.mustache
+      set: mustache-partial-body
+
+  mustache-partial-body:
+    - meta_scope: meta.embedded.partial.mustache
+    - match: '{{mustache_tag_end}}'
+      scope: punctuation.section.embedded.end.mustache
+      pop: 1
+    - include: mustache-embedded-content
+
+  mustache-sections:
+    - match: ({{mustache_tag_start}})\s*([$#^/])
+      captures:
+        1: punctuation.section.embedded.begin.mustache
+        2: keyword.declaration.section.mustache
+      set: mustache-section-body
+
+  mustache-section-body:
+    - meta_scope: meta.embedded.section.mustache
+    - match: '{{mustache_tag_end}}'
+      scope: punctuation.section.embedded.end.mustache
+      pop: 1
+    - include: mustache-embedded-content
+
+  mustache-unescaped-variables:
+    - match: \{\{\{
+      scope: punctuation.section.embedded.begin.mustache
+      set: mustache-unescaped-variable-body
+
+  mustache-unescaped-variable-body:
+    - meta_scope: meta.embedded.variable.mustache
+    - match: \}\}\}
+      scope: punctuation.section.embedded.end.mustache
+      pop: 1
+    - include: mustache-embedded-content
+
+  mustache-escaped-variables:
+    - match: ({{mustache_tag_start}})(?:\s*(&))?
+      captures:
+        1: punctuation.section.embedded.begin.mustache
+        2: storage.modifier.mustache
+      set: mustache-escaped-variable-body
+
+  mustache-escaped-variable-body:
+    - meta_scope: meta.embedded.variable.mustache
+    - match: '{{mustache_tag_end}}'
+      scope: punctuation.section.embedded.end.mustache
+      pop: 1
+    - include: mustache-embedded-content
+
+  mustache-embedded-content:
+    - match: ([[:alpha:]_][[:alnum:]_]*)(\.)
+      scope: meta.path.mustache
+      captures:
+        1: variable.other.object.mustache
+        2: punctuation.accessor.dot.mustache
+    - match: ([[:alpha:]_][[:alnum:]_]*)
+      scope: meta.path.mustache variable.other.member.mustache
+    - match: \.
+      scope: variable.language.mustache
+
+###[ PROTOTYPES ]##############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1

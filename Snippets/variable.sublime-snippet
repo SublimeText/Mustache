@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[${TM_TEMPLATE_START} ${1:variable} ${TM_TEMPLATE_END}]]></content>
+    <tabTrigger>var</tabTrigger>
+    <scope>meta.template.mustache</scope>
+    <description>Mustache Escaped Variable</description>
+</snippet>

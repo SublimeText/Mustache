@@ -1,8 +1,0 @@
-<snippet>
-    <content><![CDATA[
-{{! ${1:comment} }}
-]]></content>
-    <tabTrigger>!</tabTrigger>
-    <description>Mustache Comment</description>
-    <scope>embedding.mustache</scope>
-</snippet>

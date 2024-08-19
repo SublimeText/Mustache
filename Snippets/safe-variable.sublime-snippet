@@ -1,8 +1,6 @@
 <snippet>
-    <content><![CDATA[
-{{{ ${1:variable} }}}
-]]></content>
+    <content><![CDATA[{{{ ${1:variable} }}}]]></content>
     <tabTrigger>let</tabTrigger>
+    <scope>meta.template.mustache</scope>
     <description>Mustache Unescaped Variable</description>
-    <scope>embedding.mustache</scope>
 </snippet>

@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[${TM_TEMPLATE_START}> ${1:partial} ${TM_TEMPLATE_END}]]></content>
+    <tabTrigger>inc</tabTrigger>
+    <scope>meta.template.mustache</scope>
+    <description>Mustache Partial</description>
+</snippet>
